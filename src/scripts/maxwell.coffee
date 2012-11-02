@@ -7,11 +7,14 @@ module.exports = (robot) ->
     user = "klout"
     pass = "pimpmyride"
     auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64')
-    msg.http("http://beta.api.klout.com/maxwell.json/state")
+    msg.http("http://api.internal.klout/maxwell.json/state")
       .headers(Authorization: auth, Accept: 'application/json')
       .get() (err, res, body) ->
+        table_string = ""
         data = JSON.parse(body)
         epoch = parseInt(data["scoreTimestamp"])
         d = new time.Date(epoch)
         d.setTimezone "America/Los_Angeles"
-        msg.send "Loaded: #{d.toString()}"
+        for t in data['currentTables'].split ','
+          table_string = table_string + "  " + t + "\n"
+        msg.send "Loaded: #{d.toString()}\nModel: #{data['currentModel']}\nTables:#{table_string}"

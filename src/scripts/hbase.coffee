@@ -9,6 +9,7 @@
 #   hubot hbase list locks - Lists all current locks
 #   hubot hbase list overrides - Lists current shuffler overrides
 #   hubot hbase list clusters - Lists discovered clusters
+#   hubot hbase list queue <cluster> - Lists a clusters task queue
 #   hubot hbase list <cluster> nodes - Lists discovered nodes in a cluster
 #   hubot hbase list <cluster> tables - Lists discovered tables in a cluster
 #   hubot hbase list <cluster> <table> - Lists a clusters table status (compaction)
@@ -22,7 +23,7 @@ module.exports = (robot) ->
   robot.respond /hbase list locks/i, (msg) ->
     msg.http("http://hbase-api.klout:9091/api/locks").get() (err, res, body) ->
         data = JSON.parse(body)
-        msg.send JSON.stringify(data['lock'])
+        msg.send JSON.stringify(data)
 
   robot.respond /hbase list clusters/i, (msg) ->
     msg.http("http://hbase-api.klout:9091/api/clusters").get() (err, res, body) ->
@@ -43,7 +44,7 @@ module.exports = (robot) ->
         data = JSON.parse(body)
         msg.send JSON.stringify(data)
 
-  robot.respond /hbase list ([^ ]+) tables$/i, (msg) ->
+  robot.respond /hbase list tables ([^ ]+)/i, (msg) ->
     cluster = msg.match[1]
     msg.http("http://hbase-api.klout:9091/api/tables/#{cluster}").get() (err, res, body) ->
         table_list = ""
@@ -72,21 +73,20 @@ module.exports = (robot) ->
     catch error
       msg.send "Error: #{error}"
 
-  robot.respond /hbase compact ([^ ]+) ([^ ]+) major/i, (msg) ->
+  robot.respond /hbase list queue ([^ ]+)$/i, (msg) ->
     cluster = msg.match[1]
-    table = msg.match[2]
     try
-      msg.http("http://hbase-api.klout:9091/api/compact/#{cluster}/#{table}/True").get() (err, res, body) ->
+      msg.http("http://hbase-api.klout:9091/api/queue/#{cluster}").get() (err, res, body) ->
           data = JSON.parse(body)
           msg.send JSON.stringify(data)
     catch error
       msg.send "Error: #{error}"
 
-  robot.respond /hbase list ([^ ]+) ([^ ]+)/i, (msg) ->
+  robot.respond /hbase compact ([^ ]+) ([^ ]+) major/i, (msg) ->
     cluster = msg.match[1]
     table = msg.match[2]
     try
-      msg.http("http://hbase-api.klout:9091/api/tables/#{cluster}/#{table}").get() (err, res, body) ->
+      msg.http("http://hbase-api.klout:9091/api/compact/#{cluster}/#{table}/True").get() (err, res, body) ->
           data = JSON.parse(body)
           msg.send JSON.stringify(data)
     catch error
