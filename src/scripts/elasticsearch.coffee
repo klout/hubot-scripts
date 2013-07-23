@@ -21,5 +21,5 @@ password = process.env.SEXY_API_PASSWORD || ''
 
 module.exports = (robot) ->
   robot.respond /elasticsearch list locks/i, (msg) ->
-    msg.http("http://localhost:9000/elasticsearch.json/locks").auth(user, password).get() (err, res, body) ->
+    msg.http("http://api.internal.klout.com/elasticsearch.json/locks").auth(user, password).get() (err, res, body) ->
       msg.send body
