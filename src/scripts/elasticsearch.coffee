@@ -6,11 +6,10 @@
 # Configuration:
 #
 # Commands:
-#   hubot elasticsearch status - Lists status of all clusters
+#   hubot elasticsearch status - Lists status of all clusters (name, health, value)
 #   hubot elasticsearch list locks - Lists all current locks
-#   hubot elasticsearch list overrides - Lists current shuffler overrides
-#   hubot elasticsearch lock - Lock HBase for maintenance. No loads during this time
-#   hubot elasticsearch unlock - Unlock HBase maintenance lock
+#   hubot elasticsearch lock - Lock ElasticSearch
+#   hubot elasticsearch unlock - Remove ElasticSearch lock
 #   hubot elasticsearch override <cluster|delete> - Overrides shuffler to cluster, or deletes override
 # 
 # Author:
