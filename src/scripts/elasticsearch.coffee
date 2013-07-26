@@ -10,7 +10,7 @@
 #   hubot elasticsearch list locks - Lists all current locks
 #   hubot elasticsearch lock - Lock ElasticSearch
 #   hubot elasticsearch unlock - Remove ElasticSearch lock
-#   hubot elasticsearch override <cluster|delete> - Overrides shuffler to cluster, or deletes override
+#   hubot elasticsearch override <cluster|delete|none> - Overrides shuffler to cluster/deletes override/sets all clusters to false
 # 
 # Author:
 #   Gaurav Ragtah @gragtah
